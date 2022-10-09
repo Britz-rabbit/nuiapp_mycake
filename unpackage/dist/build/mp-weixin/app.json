@@ -1,0 +1,22 @@
+{
+  "pages": [
+    "pages/cake/cake",
+    "pages/home/home",
+    "pages/bread/bread",
+    "pages/food/food",
+    "pages/personal/personal",
+    "pages/good-detail/good-detail",
+    "pages/home/bannerAd"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "mycake",
+    "navigationBarBackgroundColor": "#ff5566",
+    "backgroundColor": "#F8F8F8"
+  },
+  "usingComponents": {
+    "detail": "/components/detai",
+    "nav-bar": "/components/navBar"
+  }
+}

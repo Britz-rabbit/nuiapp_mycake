@@ -1,0 +1,11 @@
+{
+  "navigationBarTitleText": "蛋糕",
+  "enablePullDownRefresh": true,
+  "navigationStyle": "custom",
+  "usingComponents": {
+    "u-popup": "/node-modules/uview-ui/components/u-popup/u-popup",
+    "u-collapse": "/node-modules/uview-ui/components/u-collapse/u-collapse",
+    "u-collapse-item": "/node-modules/uview-ui/components/u-collapse-item/u-collapse-item",
+    "u-line": "/node-modules/uview-ui/components/u-line/u-line"
+  }
+}

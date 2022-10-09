@@ -1,0 +1,62 @@
+{
+	"easycom": {
+			"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+		},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+            "path" : "pages/cake/cake",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "蛋糕",
+                "enablePullDownRefresh": true ,
+				"navigationStyle": "custom"
+            }
+            
+        }
+		,{
+		"path": "pages/home/home",
+		"style": {
+			"navigationBarTitleText": "首页",
+			"navigationBarBackgroundColor": "#ff5566",
+			"navigationBarTextStyle": "white",
+			"enablePullDownRefresh": true,
+			"navigationStyle": "custom"
+		}
+	}
+		,{
+		    "path" : "pages/personal/personal",
+		    "style" :                                                                                    
+		    {
+		        "navigationBarTitleText": "个人中心",
+		        "enablePullDownRefresh": false
+		    }
+		    
+		}
+        ,{
+            "path" : "pages/good-detail/good-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "商品详情",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
+        }
+        ,{
+            "path" : "pages/home/bannerAd",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "mycake",
+		"navigationBarBackgroundColor": "#ff5566",
+		"backgroundColor": "#F8F8F8"
+	},
+	"uniIdRouter": {}
+}

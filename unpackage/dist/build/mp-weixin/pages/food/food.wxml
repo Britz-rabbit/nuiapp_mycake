@@ -1,0 +1,1 @@
+<view><u-tabs vue-id="13f71a00-1" list="{{list1}}" bind:__l="__l"></u-tabs></view>
