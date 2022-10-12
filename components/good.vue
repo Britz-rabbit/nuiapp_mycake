@@ -59,8 +59,16 @@
 			},
 			//点击购物车图标直接加入购物车
 			addToCart(){
-				// console.log('要加入的购物车信息是',this.$props.data);
-				this.$store.commit('addItem',this.$props.data)
+				// this.$store.commit('addItem',this.$props.data)
+				// console.log('vuex新加属性不是响应式',this.$store.state.cart.itemList);
+				uni.getStorage({
+					key:'goodInfo',
+					success:(res)=>{
+						// console.log(res.data);
+						this.$store.commit('addItem',res.data)
+						console.log('vuex新加属性是响应式',this.$store.state.cart.itemList);
+					}
+				})
 				uni.showToast({
 					title:'加入购物车成功',
 					icon:'none'

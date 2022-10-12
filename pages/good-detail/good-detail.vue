@@ -56,15 +56,22 @@
 		},
 		methods: {
 			addToCart(){
-				// console.log('要加入的购物车信息是',this.$props.data);
-				this.$store.commit('addItem',this.$props.data)
+				uni.getStorage({
+					key:'goodInfo',
+					success:(res)=>{
+						// console.log(res.data);
+						this.$store.commit('addItem',res.data)
+						console.log(this.$store.state.cart.itemList);
+					}
+				})
 				uni.showToast({
 					title:'加入购物车成功',
 					icon:'none'
 				})
+				//console.log('仓库内有',this.$store.state.cart.itemList);
 			},
 			toCart(){
-			//点击加入购物车后，替换本地存储的商品信息，放到仓库一份，然后跳转至购物车
+			//替换本地存储的商品信息，放到仓库一份，然后跳转至购物车
 			uni.getStorage({
 				key:'goodInfo',
 				success:(res)=>{

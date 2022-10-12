@@ -1,7 +1,9 @@
 <template>
 	<view>
 		<view class="itemCon flex margin-top-xl">
-			<text class="iconfont icon-gouxuan" :class="isChecked?'coloryellow':'color9292'"></text>
+			<text class="iconfont icon-gouxuan"
+			 @tap="isChecked=!isChecked"
+			 :class="isChecked?'coloryellow':'color9292'"></text>
 			<view class="poster">
 				<image :src="data.img" mode=""></image>
 			</view>
@@ -17,13 +19,13 @@
 					<u-modal :show="isChanging" :showConfirmButton='false' :closeOnClickOverlay="true">
 						<view class="modal flex flex-direction text-center">
 							<text>{{content}}</text>
-						<input type="number" value="" :value="newNum" auto-focus>
-						<view class="flex">
-						<button type="default" size="mini" @tap="changeNum(0)">取消</button>
-						<button type="primary" size="mini" @tap="changeNum(1)">确认修改</button>
-						</view>				
+							<input type="number" ref="input" :value="data.num" auto-focus>
+							<view class="flex">
+								<button type="default" size="mini" @tap="changeNum(0)">取消</button>
+								<button type="primary" size="mini" @tap="changeNum(1)">确认修改</button>
+							</view>
 						</view>
-						
+
 					</u-modal>
 
 
@@ -50,35 +52,56 @@
 		name: "cartItem",
 		props: ['data'],
 		beforeMount() {
-			// console.log(this.$props.data);
-			this.isChecked = this.$props.data.isChecked
-			this.newNum = this.$props.data.num
+			
 		},
 		data() {
 			return {
-				isChecked: false,
 				isChanging: false,
-				content: '通过下方按钮修改商品数量，如果输入值小于等于0则会从购物车中移除该商品。',
-				newNum: 0
+				content: '通过下方按钮修改商品数量，如果输入值小于等于0则会从购物车中移除该商品。'
 			};
 		},
 		computed: {
 			sumPrice() {
 				return this.$props.data.price * this.$props.data.num
+			},
+			isChecked:{
+				get(){
+					//console.log('调用了单个商品的get');
+					return this.$props.data.isChecked
+				},
+				set(val){
+					this.$props.data.isChecked=val
+					this.$store.commit('changeChecked',this.$props.data)
+				    //console.log('你更改了勾选，现在仓库信息是',this.$store.state.cart.itemList);
+					
+				}
 			}
 		},
-		methods:{
+		methods: {
 			//修改商品数量
 			changeNum(type) {
-				if(!type){
-				 return	this.isChanging=false
-				}else{
-						this.isChanging=false
+				if (!type) {
+					return this.isChanging = false
+				} else {
+					let num = this.$refs.input.valueSync * 1
+					if (num <= 0) {
+						//输入值小于等于0，直接移除
+						this.$store.commit('detItem', this.$props.data)
+					} else {
+						//输入值大于0，修改data的num，再重新提交
+						this.$props.data.num = this.$refs.input.valueSync * 1
+						this.$store.commit('changeChecked', this.$props.data)
+						//使用自定义事件通知父组件重新刷新整个购物车	
+						this.$emit('reload')
+						this.isChanging = false
+					}
 				}
-			
+
 			},
+
+
 		},
-		
+
 	}
 </script>
 
@@ -140,6 +163,9 @@
 	}
 
 	.name {
+		white-space: nowrap;
+		text-overflow: ellipsis;
+		max-width: 300rpx;
 		text:nth-child(2) {
 			font-size: 28rpx;
 			color: #a3a3a3;
@@ -159,17 +185,20 @@
 			text-align: center;
 		}
 	}
-	.modal{
-		text{
+
+	.modal {
+		text {
 			font-size: 30rpx;
 		}
-		input{
+
+		input {
 			height: 60rpx;
 			font-size: 48rpx;
 			margin: 18rpx 0;
 			border: 1rpx solid #a3a3a3;
 		}
-		button{
+
+		button {
 			height: 68rpx;
 			font-size: 32rpx;
 		}

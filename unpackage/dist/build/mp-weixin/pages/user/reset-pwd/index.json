@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "bm-reset-password": "/components/bm-reset-password/bm-reset-password"
+  }
+}

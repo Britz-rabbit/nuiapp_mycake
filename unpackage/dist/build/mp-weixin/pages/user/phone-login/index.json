@@ -1,0 +1,5 @@
+{
+  "usingComponents": {
+    "bm-phone-login": "/components/bm-phone-login/bm-phone-login"
+  }
+}

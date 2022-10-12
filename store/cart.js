@@ -16,9 +16,15 @@ const mutations={
 		}
 		
 	},
+	//从购物车删除
+	detItem(states,item){
+		let index=state.itemList.findIndex(i=>i.id===item.id)	
+		state.itemList.splice(index,1)
+	},
 	//处理购物车内物品的勾选与数量
 	changeChecked(state,item){
 		let index=state.itemList.findIndex(i=>i.id===item.id)
+		//console.log(index);
 		state.itemList[index]=item
 	},
 	//假装你全买了

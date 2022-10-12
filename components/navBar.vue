@@ -7,7 +7,7 @@
 			<view class="title text-bold" @click="toCake">
 			 <text> MYCAKE </text>
 			</view>
-			<view class="action text-grey">
+			<view class="action text-grey" @tap="lazy">
 				<text class="cuIcon-search"></text>
 				<u-line direction="col" length='25rpx' margin='15rpx'></u-line>
 				<text class="cuIcon-sort"></text>
@@ -28,6 +28,12 @@
 			toCake() {
 				uni.navigateTo({
 					url:'/pages/cake/cake'
+				})
+			},			
+			lazy(){
+				uni.showToast({
+					title:'懒得做了',
+					icon:'loading'
 				})
 			}
 		},

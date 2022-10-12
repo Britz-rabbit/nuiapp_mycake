@@ -6,16 +6,20 @@
 		<u-popup :show="isShow" mode="left" @close="isShow=false">
 			<view class="flex flex-direction pop-con align-center">
 				<view class="flex u-border-bottom" @tap="toHome">
-					<u-icon name="home-fill" size='22'></u-icon>
+					<text class="lg text-gray cuIcon-home"></text>
 					<text class="">首页</text>
 				</view>
 				<view class="flex u-border-bottom" @tap="toPersonal">
-					<u-icon name="account-fill" size='22'></u-icon>
+					<text class="lg text-gray cuIcon-service"></text>
 					<text class="">个人中心</text>
 				</view>
+				<view class="flex u-border-bottom" @tap="toMap">				
+					<text class="lg text-gray cuIcon-location"></text>
+					<text class="">收货地点</text>
+				</view>
 				<view class="flex u-border-bottom">
-					<u-icon name="weixin-fill" size='22'></u-icon>
-					<text class="" @tap="aboutUs">关于本项目</text>
+					<text class="lg text-gray cuIcon-favor"></text>
+					<text class="" @tap="aboutUs">关于项目</text>
 				</view>
 			</view>
 			<u-collapse>
@@ -84,7 +88,7 @@
 				// 	bcid:1
 				// },
 				menuList: [{
-						title: '分类',
+						title: '菜单',
 						bcid: '',
 						target: ''
 					},
@@ -147,9 +151,15 @@
 		},
 		methods: {
 			aboutUs(){
+				this.isShow=false
 				uni.showToast({
-					title:'我画的购物车贼好看(点击结算有菜单)',
+					title:'购物车页有彩蛋',
 					icon:'none'
+				})
+			},
+			toMap(){
+				uni.navigateTo({
+					url:'/pages/map/map'
 				})
 			},
 			toHome(){
@@ -264,9 +274,8 @@
 		font-size: 38rpx;
 		height: 86rpx;
 		line-height: 86rpx;
-		padding-left: 48rpx;
+		padding-left: 28rpx;
 		box-sizing: border-box;
-		border: 1rpx solid red;
 		border-radius: 16rpx;
 	}
 

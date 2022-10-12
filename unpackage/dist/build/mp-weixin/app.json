@@ -2,11 +2,15 @@
   "pages": [
     "pages/cake/cake",
     "pages/home/home",
-    "pages/bread/bread",
-    "pages/food/food",
     "pages/personal/personal",
     "pages/good-detail/good-detail",
-    "pages/home/bannerAd"
+    "pages/home/bannerAd",
+    "pages/user/login/index",
+    "pages/user/register/index",
+    "pages/user/phone-login/index",
+    "pages/user/reset-pwd/index",
+    "pages/cart/cart",
+    "pages/map/map"
   ],
   "subPackages": [],
   "window": {
@@ -15,8 +19,13 @@
     "navigationBarBackgroundColor": "#ff5566",
     "backgroundColor": "#F8F8F8"
   },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于设置商品配送服务"
+    }
+  },
   "usingComponents": {
-    "detail": "/components/detai",
+    "good": "/components/good",
     "nav-bar": "/components/navBar"
   }
 }

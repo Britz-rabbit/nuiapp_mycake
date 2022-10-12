@@ -6,12 +6,13 @@
 		<view class="doudi" v-show="!goodList.length">
 			<text>你的购物车还是空空的哦！</text>
 		</view>
-		<cartItem v-for="(item,index) in goodList" :data='item'/>
+		<cartItem v-for="(item,index) in goodList" :data='item' @reload='reloadData'/>
 		<!-- 底部菜单栏 -->
 		<view class="btmMenu flex justify-between text-center">
 			<view class="info flex justify-between">
 				<view class="">
 					<text class="iconfont icon-gouxuan"
+					@tap="isAllChecked=!isAllChecked"
 				:class="isAllChecked?'coloryellow':'color9292'"
 				></text>全选
 				</view>
@@ -24,7 +25,7 @@
 		</view>
 	
 	</view>
-</template>
+</template> 
 
 <script>
 	import cartItem from '../../components/cartItem.vue'
@@ -34,7 +35,6 @@
 		},
 		data() {
 			return {
-				isAllChecked:true,
 				titleList:['大佬，你真有钱','大佬，你家还缺佣人吗？','卧槽，包养我吧！','汪汪汪！'],
 				count:0,
 				goodList:[]
@@ -43,9 +43,14 @@
 		onLoad() {
 			//从仓库里拿数据
 			this.goodList=this.$store.state.cart.itemList
-			console.log(this.goodList);
+			//console.log(this.goodList);
 		},
 		methods:{
+			//重新加载数据
+			reloadData(){
+			this.goodList=this.$store.state.cart.itemList
+			//console.log('重新获取了数据',this.goodList);
+			},
 			//假装你是大款
 			BuyAll(){
 				this.$store.commit('clearList')
@@ -70,6 +75,18 @@
 					sum+=item.num*item.price
 				})
 				return sum
+			},
+			isAllChecked:{
+				get() {
+					//console.log('调用了购物车的get');
+					return this.$store.state.cart.itemList.every((item)=>item.isChecked)
+				},
+				set(val){
+					//foreach不需要return
+					 this.$store.state.cart.itemList.forEach((item)=>item.isChecked=val)
+					 //console.log('你更改了勾选，现在仓库信息是',this.$store.state.cart.itemList);
+					
+				}
 			}
 		}
 		
