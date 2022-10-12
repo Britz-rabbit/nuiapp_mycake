@@ -29,7 +29,7 @@
 			<homeTitle title='法式经典' title2='French Classics' title3='French'></homeTitle>
 			<image src="../../static/img/french.jpg" class="scope2" mode="widthFix"></image>
 			<view class="flex goods-detail flex-wrap">
-				<detail v-for="(item,index) in 4"></detail>
+				<good v-for="(item,index) in 4"></good>
 			</view>
 			<!-- 点击返回顶部 -->
 			<view class="backTop" @click="backToTop" v-if="isShow">

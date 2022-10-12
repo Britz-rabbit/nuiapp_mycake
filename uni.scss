@@ -7,6 +7,9 @@
 /*引入字体图标库*/
 @import url('/static/css/font/iconfont.css');
 
+.border{
+	border: 1px red solid;
+}
 // 常用文字尺寸分类
 	.fs-16{
 		font-size: 16rpx !important; 
@@ -36,14 +39,17 @@
 .color-111{
 	color: #111 !important;
 }
-.color-9292{
+.color9292{
 	color: #929292 !important;
 }
 .color-9898{
 	color: #989898 !important;
 }
-.color-111{
+.color111{
 	color: #111 !important;
+}
+.coloryellow{
+	color: #fae456 !important;
 }
 /* 行为相关颜色 */
 $uni-color-primary: #007aff;

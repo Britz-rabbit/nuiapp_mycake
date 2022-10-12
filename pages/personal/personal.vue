@@ -1,9 +1,9 @@
 <template>
 	<view>
 		<!-- 上方用户头像 -->
-		<view class="avatar center text-center">
+		<view class="avatar center text-center" @tap="toUser">
 			<image src="../../static/logo.png" mode=""></image>
-			<text class="fs-28">用户名称</text>
+			<text class="fs-28">{{userName}}</text>
 		</view>
 		<!-- 下方内容区 -->
 		<view class="context-con flex padding">
@@ -41,6 +41,19 @@
 				}
 				]
 			};
+		},
+		methods:{
+			toUser(){
+				uni.navigateTo({
+					url:'/pages/user/login/index'
+				})
+			}
+		},
+		computed:{
+			userName(){
+				let name=this.$store.state.user.userInfo.username
+				return name?name:'点击上方头像登陆'
+			}
 		}
 	}
 </script>

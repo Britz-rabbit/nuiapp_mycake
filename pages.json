@@ -50,6 +50,28 @@
                 "enablePullDownRefresh": false
             }
             
+        },
+		{
+			"path": "pages/user/login/index"
+		},
+		{
+			"path": "pages/user/register/index"
+		},
+		{
+			"path": "pages/user/phone-login/index"
+		},
+		{
+			"path": "pages/user/reset-pwd/index"
+		}
+        ,{
+            "path" : "pages/cart/cart",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false,
+				"navigationStyle": "custom"
+            }
+            
         }
     ],
 	"globalStyle": {

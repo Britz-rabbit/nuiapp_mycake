@@ -5,34 +5,39 @@
 		<!-- 左侧弹出菜单 -->
 		<u-popup :show="isShow" mode="left" @close="isShow=false">
 			<view class="flex flex-direction pop-con align-center">
-				<view class="flex u-border-bottom">
-				<u-icon name="home-fill" size='22'></u-icon>
-				<text class="">首页</text>	
+				<view class="flex u-border-bottom" @tap="toHome">
+					<u-icon name="home-fill" size='22'></u-icon>
+					<text class="">首页</text>
+				</view>
+				<view class="flex u-border-bottom" @tap="toPersonal">
+					<u-icon name="account-fill" size='22'></u-icon>
+					<text class="">个人中心</text>
 				</view>
 				<view class="flex u-border-bottom">
-				<u-icon name="account-fill" size='22'></u-icon>
-				<text class="">个人中心</text>	
-				</view>
-				<view class="flex u-border-bottom">
-				<u-icon name="weixin-fill" size='22'></u-icon>
-				<text class="">关于我们</text>	
+					<u-icon name="weixin-fill" size='22'></u-icon>
+					<text class="" @tap="aboutUs">关于本项目</text>
 				</view>
 			</view>
 			<u-collapse>
 				<!-- 组件库尽量别放到view中来添加样式，否则真机体验可能出问题 -->
 				<!-- 这个组件不支持v-for，故采用数据分组后单独渲染 -->
 				<u-collapse-item title='所有蛋糕'>
-					<view class="itemContent" v-for="(item,index) in cakes.list">
-						<text v-if="cakes.list.length">{{item.tname}}</text>
+					<view class="itemContent flex justify-between"
+					 v-for="(item,index) in cakes.list"
+					 @click="choseFlavor(item)"
+					 >
+						<text>{{item.tname}}</text>
+						<view class='cu-tag round bg-yellow'>{{item.num}}</view>
+						<u-icon name="arrow-right"></u-icon>
 					</view>
 					<!-- 判断会放到外面，因为v-for在遍历空对象后会跳过内部结构的渲染 -->
 					<text v-if="!cakes.list.length">暂无更多分类</text>
-					
+
 				</u-collapse-item>
 				<u-collapse-item title='所有面包'>
 					<view class="itemContent" v-for="(item,index) in breads.list">
-						<text >{{item.tname}}</text>
-					</view>	
+						<text>{{item.tname}}</text>
+					</view>
 					<text v-if="!breads.list.length">暂无更多分类</text>
 				</u-collapse-item>
 				<u-collapse-item title='所有零食'>
@@ -52,7 +57,7 @@
 		</u-popup>
 		<!-- 中间内容区 -->
 		<view class="context-con flex flex-wrap">
-			<detail v-for="(item) in goodsList" :key='item.id' :data="item"></detail>
+			<good v-for="(item) in goodsList" :key='item.id' :data="item"></good>
 		</view>
 		<!-- 底部菜单 -->
 		<view class="bottonMenu flex text-center justify-around padding-sm">
@@ -73,11 +78,11 @@
 			return {
 				goodsList: [],
 				page: 0,
-				isShow: true,
+				isShow: false,
 				//获取数据的部分查询参数，依不同情况而变
-				condition:{
-					bcid:1
-				},
+				// condition:{
+				// 	bcid:1
+				// },
 				menuList: [{
 						title: '分类',
 						bcid: '',
@@ -106,35 +111,57 @@
 					}
 				],
 				//使用的组件库不支持v-for，故采用数据分组单独渲染
-				breads:[],
-				cakes:[],
-				foods:[],
-				fittings:[]
-				
+				breads: [],
+				cakes: [],
+				foods: [],
+				fittings: []
+
 			}
 		},
 		onPullDownRefresh() {
-			this.goodsList = []
-			this.page = 0
-			this.loadData()
+			this.reloadData()
 			uni.stopPullDownRefresh()
 		},
 		onLoad() {
 			//获取面包分类的数据
 			this.loadData()
 			//获取口味列表
-			this.$request('/1.1/classes/classify',{limit:4}).then((res)=>{
-				this.cakes=res.results[0]
-				this.breads=res.results[1]
-				this.foods=res.results[2]
-				this.fittings=res.results[3]
+			this.$request('/1.1/classes/classify', {
+				limit: 4
+			}).then((res) => {
+				//console.log(res);
+				this.cakes = res.results[0]
+				this.breads = res.results[1]
+				this.foods = res.results[2]
+				this.fittings = res.results[3]
 			})
 		},
 		onReachBottom() {
 			// /1.1/classes/goods?where={"bcid":1}
 			this.loadData()
 		},
+		computed: {
+			condition() {
+				return this.$store.state.condition.condition
+			}
+		},
 		methods: {
+			aboutUs(){
+				uni.showToast({
+					title:'我画的购物车贼好看(点击结算有菜单)',
+					icon:'none'
+				})
+			},
+			toHome(){
+				uni.navigateTo({
+					url:'/pages/home/home'
+				})
+			},
+			toPersonal(){
+				uni.navigateTo({
+					url:'/pages/personal/personal'
+				})
+			},
 			//获取商品列表数据
 			loadData() {
 				this.page += 1
@@ -162,6 +189,12 @@
 					}
 				})
 			},
+			//情况data后重新获取商品数据列表
+			reloadData(){
+				this.goodsList = []
+				this.page = 0
+				this.loadData()
+			},
 			//底部菜单点击切换到不同页面
 			tapMenu(item) {
 				let {
@@ -171,16 +204,31 @@
 				if (bcid) {
 					this.goodsList = []
 					this.page = 0,
-					this.condition.bcid = bcid*1
+						// this.condition.bcid = bcid*1
+						this.$store.commit('changeCon', {
+							bcid: bcid * 1
+						})
 					this.loadData()
 				} else if (target) {
-					console.log('去往购物车页面');
+					uni.navigateTo({
+						url:'/pages/cart/cart'
+					})
 				} else {
 					this.isShow = true
 				}
-			}
+			},
+			//左侧菜单单机跳转分类
+			choseFlavor({bid,tid}){
+				this.$store.commit('changeCon',{
+					bcid:bid,
+					fid:tid
+				})
+				this.reloadData()	
+			},
+			//
+		
 		},
-
+		
 	}
 </script>
 
@@ -208,24 +256,24 @@
 	}
 
 	//左侧菜单栏
-	.pop-con {
+	.u-border-bottom:nth-child(1){
+		margin-top: 120rpx;
+	}
+	.u-border-bottom {
 		width: 300rpx;
-		padding-top: 120rpx;
+		font-size: 38rpx;
+		height: 86rpx;
+		line-height: 86rpx;
+		padding-left: 48rpx;
+		box-sizing: border-box;
+		border: 1rpx solid red;
+		border-radius: 16rpx;
+	}
 
-		.u-border-bottom {
-			width: 300rpx;
-			font-size: 38rpx;
-			height: 86rpx;
-			line-height: 86rpx;
-			padding-left: 48rpx;
-			box-sizing: border-box;
-			border: 1rpx solid red;
-			border-radius: 16rpx;
-		
-		}
-
-		.itemContent {
-			
-		}
+	.itemContent {
+		font-size: 36rpx;
+		height: 48rpx;
+		height: 48rpx;
+		margin-top: 16rpx;
 	}
 </style>
